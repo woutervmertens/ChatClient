@@ -1,7 +1,8 @@
+import ContentReading.ContentFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ResponseParser {
 
@@ -29,8 +30,10 @@ public class ResponseParser {
         HashMap<String, String> headers = new HashMap<>();
         response.setHeaders(headers);
 
+
+
         boolean loop = true;
-        //read headers
+        //readBody headers
         while (loop){
             String line = reader.readLine();
             if(line.equals("")) loop = false;
@@ -40,13 +43,11 @@ public class ResponseParser {
             }
         }
 
-        // TODO: 04/03/2019
-        //Content generation
+        //  -------------|--Factory-Singleton|--new-Instance---|--methods--|
+        byte[] content = ContentFactory.get().reader(headers).readBody(reader);
+        response.setContent(content);
 
-        String s;
-        while ((s = reader.readLine()) != null){
-            System.out.println(s);
-        }
+        reader.close();
         return response;
     }
 }

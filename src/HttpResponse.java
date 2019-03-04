@@ -8,7 +8,7 @@ public class HttpResponse {
     private Map<String,String> headers;
 
     //Nog niet zeker over datatype hier, dit kan later nog veranderen.
-    private ArrayList<String> content;
+    private byte[] content;
 
     public HttpResponse() {
     }
@@ -45,11 +45,11 @@ public class HttpResponse {
         this.headers = headers;
     }
 
-    public ArrayList<String> getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public void setContent(ArrayList<String> content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 }
