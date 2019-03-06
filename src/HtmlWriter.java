@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileWriter {
+public class HtmlWriter {
     public boolean CreateFile(String folderName, String title, ArrayList<String> arrayList){
         Writer writer = null;
         File file = new File(folderName + "/" + title + ".html");
