@@ -37,14 +37,22 @@ public class Connection {
     HttpResponse get(String resource) throws IOException {
         return send("GET "+resource);
     }
+
+    //Overload voor default value
     HttpResponse send(String cmd) throws IOException {
+        return send(cmd,false);
+    }
+
+    HttpResponse send(String cmd, boolean bMultiple) throws IOException {
         writer.println(cmd+" HTTP/1.1");
         writer.println("Host: "+domain);
+        if(bMultiple) writer.println("Connection: keep-alive");
         writer.println();
         writer.flush();
 
         return read();
     }
+
     private HttpResponse read() throws IOException {
         String string;
         ArrayList<String> arrayList = new ArrayList<>();
