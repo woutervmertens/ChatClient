@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class HtmlWriter {
-    public boolean CreateFile(String folderName, String title, ArrayList<String> arrayList){
+    /*public boolean CreateFile(String folderName, String title, ArrayList<String> arrayList){
         Writer writer = null;
         File file = new File(folderName + "/" + title + ".html");
         try{
@@ -23,7 +23,7 @@ public class HtmlWriter {
         }
 
         return true;
-    }
+    }*/
 
     public boolean CreateFile(String folderName, String title, byte[] content){
         File file = new File(folderName + "/" + title + ".html");
@@ -44,5 +44,10 @@ public class HtmlWriter {
 
     public boolean CreateFolder(String name){
         return new File(name).mkdir();
+    }
+
+    public boolean CreateFolderAndFile(String FolderName, String domain, byte[] content){
+        if(!CreateFolder(FolderName)) return false;
+        return CreateFile(FolderName,domain,content);
     }
 }

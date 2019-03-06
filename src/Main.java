@@ -10,8 +10,10 @@ public class Main {
         Connection con = new Connection(domain);
         HttpResponse httpResponse = con.get("/");
 
-
         System.out.println(new String(httpResponse.getContent()));
+
+        HtmlWriter htmlWriter = new HtmlWriter();
+        htmlWriter.CreateFolderAndFile(domain,domain,httpResponse.getContent());
 
         con.close();
     }
