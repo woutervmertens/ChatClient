@@ -24,6 +24,8 @@ public class Connection {
         if(parts[0].equals("www")) this.domain = domain;
         else                       this.domain = "www."+domain;
 
+        //Host does not accept http:// or / at end
+
         this.port = port;
         socket = new Socket(domain, port);
 
