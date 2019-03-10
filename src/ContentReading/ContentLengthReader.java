@@ -15,7 +15,7 @@ public class ContentLengthReader implements ContentReader {
 
         byte[] bytes = new byte[contentLength];
         for (int i = 0; i < contentLength; i++) {
-            //if there is some unexplainable error check for byte overflow. (should not happen)
+            //check here if there is some unexplainable error, check for byte overflow. (should not happen)
             byte b = (byte)reader.read();
             bytes[i] = b;
         }

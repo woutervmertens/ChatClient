@@ -46,8 +46,8 @@ public class HtmlWriter {
         return new File(name).mkdir();
     }
 
-    public boolean CreateFolderAndFile(String FolderName, String domain, byte[] content){
-        if(!CreateFolder(FolderName)) return false;
-        return CreateFile(FolderName,domain,content);
+    public boolean CreateFolderAndFile(String folderName, String fileName, byte[] content){
+        if(!CreateFolder(folderName)) return false;
+        return CreateFile(folderName,fileName,content);
     }
 }

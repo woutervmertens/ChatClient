@@ -38,6 +38,7 @@ public class ResponseParser {
             String line = reader.readLine();
             if(line.equals("")) loop = false;
             else{
+                System.out.println(line);
                 String[] parts = line.split(": ",2);
                 headers.put(parts[0],parts[1]);
             }

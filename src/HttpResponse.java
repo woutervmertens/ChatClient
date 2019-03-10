@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Map;
 
 public class HttpResponse {
@@ -7,7 +6,6 @@ public class HttpResponse {
     private String statusMessage;
     private Map<String,String> headers;
 
-    //Nog niet zeker over datatype hier, dit kan later nog veranderen.
     private byte[] content;
 
     public HttpResponse() {
