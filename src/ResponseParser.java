@@ -1,4 +1,4 @@
-import ContentReading.ContentFactory;
+//import ContentReading.ContentFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,15 +16,25 @@ public class ResponseParser {
         //Create Response
         HttpResponse response = new HttpResponse();
 
+
         //Read and split first line
         String firstLine = reader.readLine();
         String[] splitFirstLine = firstLine.split(" ",3);
 
         //Set first line properties
         //ex. HTTP/1.1 200 OK
-        response.setHttpVersion(splitFirstLine[0]);
-        response.setStatusCode(Integer.parseInt(splitFirstLine[1]));
-        response.setStatusMessage(splitFirstLine[2]);
+        if(splitFirstLine.length >= 3){
+            response.setHttpVersion(splitFirstLine[0]);
+            response.setStatusCode(Integer.parseInt(splitFirstLine[1]));
+            response.setStatusMessage(splitFirstLine[2]);
+        }
+        /*else
+        {
+            //default values
+            response.setHttpVersion("HTTP/1.1");
+            response.setStatusCode(200);
+            response.setStatusMessage("OK");
+        }*/
 
         //Set response Headers
         HashMap<String, String> headers = new HashMap<>();
@@ -40,7 +50,7 @@ public class ResponseParser {
             else{
                 System.out.println(line);
                 String[] parts = line.split(": ",2);
-                headers.put(parts[0],parts[1]);
+                if(parts.length == 2)headers.put(parts[0],parts[1]);
             }
         }
 
@@ -48,7 +58,7 @@ public class ResponseParser {
         byte[] content = ContentFactory.get().reader(headers).readBody(reader);
         response.setContent(content);
 
-        reader.close();
+        //reader.close();
         return response;
     }
 }

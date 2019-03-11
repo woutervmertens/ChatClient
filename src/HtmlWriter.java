@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class HtmlWriter {
-    private String lastFolderName;
+    private static String lastFolderName;
 
     public boolean CreateFileBase(String folderName, String title, byte[] content)
     {
@@ -32,7 +32,8 @@ public class HtmlWriter {
         return true;
     }
 
-    private boolean CreateFolder(String name){
+    public boolean CreateFolder(String name){
+        lastFolderName = name;
         return new File(name).mkdir();
     }
 

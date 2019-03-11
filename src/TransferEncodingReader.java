@@ -1,4 +1,4 @@
-package ContentReading;
+//package ContentReading;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +9,7 @@ public class TransferEncodingReader implements ContentReader {
     @Override
     public byte[] readBody(BufferedReader reader) throws IOException {
         ArrayList<byte[]> byteList = new ArrayList<>();
+        ContentScan contentScanner = new ContentScan();
 
         int size=0;
         do {
@@ -18,7 +19,7 @@ public class TransferEncodingReader implements ContentReader {
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             String s = "";
             while(!(s= reader.readLine()).equals("0")){
-                //s = linescanner.scan(s);
+                s = contentScanner.Scan(s);
                 s += '\n';
                 byte[] b = s.getBytes();
                 byteArray.writeBytes(b);
