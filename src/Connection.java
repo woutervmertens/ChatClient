@@ -31,7 +31,7 @@ public class Connection {
         input = socket.getInputStream();
 
         writer = new PrintWriter(output);
-        reader = new BufferedReader(new InputStreamReader(input));
+        reader = new BufferedReader(new InputStreamReader(input, "Cp1252"));
     }
 
     HttpResponse get(String resource) throws IOException {

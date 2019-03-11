@@ -17,9 +17,9 @@ public class TransferEncodingReader implements ContentReader {
             size = readHexString(hexSize);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             String s = "";
-            while(!s.equals("0")){
-                s = reader.readLine();
+            while(!(s= reader.readLine()).equals("0")){
                 //s = linescanner.scan(s);
+                s += '\n';
                 byte[] b = s.getBytes();
                 byteArray.writeBytes(b);
             }
