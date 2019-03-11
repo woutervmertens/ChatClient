@@ -8,11 +8,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String domain = "placekitten.com";
+        String domain = "i.imgur.com";
 
         Connection con = new Connection(domain);
         //HttpResponse httpResponse = con.get("/");
-        HttpResponse httpResponse = con.get("/200/180");
+        HttpResponse httpResponse = con.get("/Jvh1OQm.jpg");
         //HttpResponse httpResponse = con.get("/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png");
 
 

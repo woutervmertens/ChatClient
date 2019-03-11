@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class Connection {
     private String domain;
@@ -31,7 +32,7 @@ public class Connection {
         input = socket.getInputStream();
 
         writer = new PrintWriter(output);
-        reader = new BufferedReader(new InputStreamReader(input, "Cp1252"));
+        reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.ISO_8859_1));
     }
 
     HttpResponse get(String resource) throws IOException {
