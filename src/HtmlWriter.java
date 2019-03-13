@@ -2,31 +2,21 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class HtmlWriter {
-    /*public boolean CreateFile(String folderName, String title, ArrayList<String> arrayList){
-        Writer writer = null;
-        File file = new File(folderName + "/" + title + ".html");
-        try{
-            FileOutputStream fop = new FileOutputStream(file);
-            if(!file.exists()) {file.createNewFile();}
+    private static String lastFolderName;
 
-            writer = new BufferedWriter(
-                new OutputStreamWriter(fop));
+    public boolean CreateFileBase(String folderName, String title, byte[] content)
+    {
+        lastFolderName = folderName;
+        return CreateFile(folderName, title,".html",content);
+    }
 
-            for(int i = 0; i<arrayList.size();i++) {
-                writer.write(arrayList.get(i));
-            }
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public boolean CreateFileObject(String title, String extention, byte[] content)
+    {
+        return CreateFile(lastFolderName,title,extention,content);
+    }
 
-        return true;
-    }*/
-
-    public boolean CreateFile(String folderName, String title, byte[] content){
-        File file = new File(folderName + "/" + title + ".html");
+    private boolean CreateFile(String folderName, String title, String extention, byte[] content){
+        File file = new File(folderName + "/" + title + extention);
         try{
             FileOutputStream fop = new FileOutputStream(file);
             if(!file.exists()) {file.createNewFile();}
@@ -43,11 +33,12 @@ public class HtmlWriter {
     }
 
     public boolean CreateFolder(String name){
+        lastFolderName = name;
         return new File(name).mkdir();
     }
 
-    public boolean CreateFolderAndFile(String FolderName, String domain, byte[] content){
-        if(!CreateFolder(FolderName)) return false;
-        return CreateFile(FolderName,domain,content);
+    public boolean CreateFolderAndFile(String folderName, String fileName, byte[] content){
+        if(!CreateFolder(folderName)) return false;
+        return CreateFile(folderName,fileName,".html",content);
     }
 }

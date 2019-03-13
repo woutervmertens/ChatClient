@@ -1,6 +1,7 @@
+
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 
 public class Connection {
     private String domain;
@@ -10,7 +11,9 @@ public class Connection {
     private InputStream input;
     private PrintWriter writer;
     private BufferedReader reader;
+    private static Connection instance = null;
 
+    public static Connection getInstance(){ return instance; }
 
     public Connection(String domain) throws IOException {
         this(domain,80);
@@ -19,10 +22,12 @@ public class Connection {
     public Connection(String domain, int port) throws IOException {
 
         //Add www in front of the address if it is not present
-        String[] parts = domain.split("\\.",2);//takes a regex and '.' has a special meaning
+//        String[] parts = domain.split("\\.",2);//takes a regex and '.' has a special meaning
 
-        if(parts[0].equals("www")) this.domain = domain;
-        else                       this.domain = "www."+domain;
+//        if(parts[0].equals("www")) this.domain = domain;
+//        else                       this.domain = "www."+domain;
+        instance = this;
+        this.domain = domain;
 
         //Host does not accept http:// or / at end
 
@@ -30,24 +35,27 @@ public class Connection {
         socket = new Socket(domain, port);
 
         output = socket.getOutputStream();
-        input = socket.getInputStream();
 
         writer = new PrintWriter(output);
-        reader = new BufferedReader(new InputStreamReader(input));
     }
 
     HttpResponse get(String resource) throws IOException {
         return send("GET "+resource);
     }
 
-    //Overload voor default value
     HttpResponse send(String cmd) throws IOException {
         return send(cmd,false);
     }
 
     HttpResponse send(String cmd, boolean bMultiple) throws IOException {
-        writer.println(cmd+" HTTP/1.1");
-        writer.println("Host: "+domain);
+        String total = cmd+" HTTP/1.1";
+        System.out.println("Fire to ");
+        System.out.println(total);
+        System.out.println("Host: "+domain+":"+port);
+        System.out.println();
+
+        writer.println(total);
+        writer.println("Host: "+domain+":"+port);
         if(bMultiple) writer.println("Connection: keep-alive");
         writer.println();
         writer.flush();
@@ -56,9 +64,14 @@ public class Connection {
     }
 
     private HttpResponse read() throws IOException {
-        String string;
-        ArrayList<String> arrayList = new ArrayList<>();
-
+//        while (true){
+//            String line = reader.readLine();
+//            if(line.equals("")) return null;
+//            System.out.println(line);
+//            if(false) break;
+//        }
+        input = socket.getInputStream();
+        reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.ISO_8859_1));
         ResponseParser responseParser = new ResponseParser(reader);
         HttpResponse response = responseParser.parseAndClose();
 
@@ -66,7 +79,9 @@ public class Connection {
     }
 
     void close() throws IOException {
+        reader.close();
         socket.close();
+        instance = null;
     }
 
 }
