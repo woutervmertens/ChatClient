@@ -8,6 +8,12 @@ public class ContentScan {
     HashMap<String, String> imageInfoList = new HashMap<>();
     int imageCount = 0;
     HtmlWriter writer = new HtmlWriter();
+
+    //Scans string for imageStart
+    //  if found: loops scan for sourceStart, next loop starts at last sourceStart position
+    //      if sourceStart found: Filter from start to end of source
+    //  Download all images
+    //returns the filtered string
     public String Scan(String in)
     {
         if(in.contains(imageStart))
@@ -33,9 +39,11 @@ public class ContentScan {
         return in;
     }
 
+    //Take the source substring, save it in map and replace it with the name of the local file
     private String FilterSource(String str, int start, int end)
     {
         String source = str.substring(start,end);
+        String origSource = source;
         if(!source.startsWith("/")) source = "/" + source;
         String ext = ".jpg"; //Default value
         if(source.contains(".")){
@@ -44,9 +52,10 @@ public class ContentScan {
         }
         String local = imageNameBase + imageCount++ + ext;
         imageInfoList.put(local,source);
-        return str.replace(source,local);
+        return str.replace(origSource,local);
     }
 
+    //GET request all the images and save them locally
     private void GetAllImages()
     {
         for (HashMap.Entry<String,String> entry : imageInfoList.entrySet())
