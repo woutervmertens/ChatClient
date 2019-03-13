@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
 
 public class HtmlWriter {
     private static String lastFolderName;

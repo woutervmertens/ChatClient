@@ -20,12 +20,6 @@ public class Connection {
     }
 
     public Connection(String domain, int port) throws IOException {
-
-        //Add www in front of the address if it is not present
-//        String[] parts = domain.split("\\.",2);//takes a regex and '.' has a special meaning
-
-//        if(parts[0].equals("www")) this.domain = domain;
-//        else                       this.domain = "www."+domain;
         instance = this;
         this.domain = domain;
 
@@ -62,12 +56,6 @@ public class Connection {
     }
 
     private HttpResponse read() throws IOException {
-//        while (true){
-//            String line = reader.readLine();
-//            if(line.equals("")) return null;
-//            System.out.println(line);
-//            if(false) break;
-//        }
         input = socket.getInputStream();
         reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.ISO_8859_1));
         ResponseParser responseParser = new ResponseParser(reader);
