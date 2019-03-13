@@ -56,6 +56,7 @@ public class ResponseParser {
 
         //  -------------|--Factory-Singleton|--new-Instance---|--methods--|
         ContentFactory.get().SetReader(headers);
+
         byte[] content = ContentFactory.get().reader().readBody(reader);
         response.setContent(content);
 

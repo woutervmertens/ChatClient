@@ -41,7 +41,11 @@ public class Connection {
     }
 
     HttpResponse get(String resource) throws IOException {
-        return send("GET "+resource);
+        return get(resource, false);
+    }
+
+    HttpResponse get(String resource, boolean bMultiple) throws IOException {
+        return send("GET "+resource, bMultiple);
     }
 
     HttpResponse send(String cmd) throws IOException {
@@ -66,9 +70,11 @@ public class Connection {
 
     private HttpResponse read() throws IOException {
         input = socket.getInputStream();
-        reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.ISO_8859_1));
+        reader = new BufferedReader(new InputStreamReader(input,StandardCharsets.ISO_8859_1));
         ResponseParser responseParser = new ResponseParser(reader);
         HttpResponse response = responseParser.parseAndClose();
+
+        System.out.println(response.getHttpVersion() + " " + response.getStatusCode() + " " + response.getStatusMessage());
 
         return response;
     }

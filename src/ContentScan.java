@@ -65,7 +65,7 @@ public class ContentScan {
             Connection instance;
             instance = Connection.getInstance();
             try{
-                HttpResponse httpResponse = instance.get(value);
+                HttpResponse httpResponse = instance.get(value, true);
                 writer.CreateFileObject(key,"",httpResponse.getContent());
             } catch (IOException e) {
                 e.printStackTrace();
