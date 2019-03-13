@@ -21,6 +21,13 @@ public class Connection {
 
     public Connection(String domain, int port) throws IOException {
         instance = this;
+
+        //Remove unaccepted parts
+        if(domain.startsWith("https://"))domain = domain.replaceFirst("https://","");
+        if(domain.startsWith("http://"))domain = domain.replaceFirst("http://","");
+        if(domain.startsWith("www."))domain = domain.replaceFirst("www.","");
+        if(domain.endsWith("/"))domain = domain.substring(0, domain.length() - 1);
+
         this.domain = domain;
 
         //Host does not accept http:// or / at end
