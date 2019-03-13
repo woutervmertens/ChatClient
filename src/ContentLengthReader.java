@@ -1,24 +1,39 @@
 //package ContentReading;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ContentLengthReader implements ContentReader {
-
-    int contentLength;
-    public ContentLengthReader(String contentLength) {
-        this.contentLength = Integer.parseInt(contentLength);
-    }
-
+    /**
+     * Reads the Content-Length body and scans it
+     * @param reader
+     * @return body as byte array
+     * @throws IOException
+     */
     @Override
     public byte[] readBody(BufferedReader reader) throws IOException {
 
-        byte[] bytes = new byte[contentLength];
-        for (int i = 0; i < contentLength; i++) {
-            //check here if there is some unexplainable error, check for byte overflow. (should not happen)
-            byte b = (byte)reader.read();
-            bytes[i] = b;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ContentScan contentScanner = new ContentScan();
+        ArrayList<String> strList = new ArrayList<>();
+        String s = reader.readLine();
+
+        //Read all the lines and add them to strList
+        while (s  != null) {
+            strList.add(s);
+            s = reader.readLine();
         }
-        return bytes;
+
+        //Scan all the strings and convert to bytes
+        for(String str : strList)
+        {
+            str = contentScanner.Scan(str) + '\n';
+            byte[] b = str.getBytes();
+            baos.writeBytes(b);
+        }
+
+        return baos.toByteArray();
     }
 }
