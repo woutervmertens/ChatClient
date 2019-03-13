@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String domain = "placekitten.com";
+        String domain = "tcpipguide.com";
 
         Connection con = new Connection(domain);
         HtmlWriter htmlWriter = new HtmlWriter();

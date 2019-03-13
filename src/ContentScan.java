@@ -8,12 +8,11 @@ public class ContentScan {
     HashMap<String, String> imageInfoList = new HashMap<>();
     int imageCount = 0;
     HtmlWriter writer = new HtmlWriter();
-
     public String Scan(String in)
     {
-        imageInfoList.clear();
         if(in.contains(imageStart))
         {
+            imageInfoList.clear();
             int lastIndex = 0;
             while(lastIndex != -1){
 
@@ -22,7 +21,10 @@ public class ContentScan {
                 if(lastIndex != -1){
                     int srcstart = in.indexOf(sourceStart,lastIndex) + sourceStart.length();
                     int endsrcs = in.indexOf("\"",srcstart+1);
-                    in = FilterSource(in,srcstart,endsrcs);
+                    if(endsrcs != -1)
+                    {
+                        in = FilterSource(in,srcstart,endsrcs);
+                    }
                     lastIndex += sourceStart.length();
                 }
             }
