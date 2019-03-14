@@ -1,8 +1,6 @@
 //package ContentReading;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class TransferEncodingReader implements ContentReader {
@@ -49,6 +47,11 @@ public class TransferEncodingReader implements ContentReader {
             returnArray.writeBytes(byteArray);
         }
         return returnArray.toByteArray();
+    }
+
+    @Override
+    public byte[] readImage(BufferedInputStream input, String ext) throws IOException {
+        return new byte[0];
     }
 
     private int readHexString(String hex){

@@ -58,18 +58,20 @@ public class ContentScan {
     //GET request all the images and save them locally
     private void GetAllImages()
     {
+        Connection instance;
+        instance = Connection.getInstance();
+        HttpResponse httpResponse = null;
+        try {
+            httpResponse = instance.get(imageInfoList.values());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (HashMap.Entry<String,String> entry : imageInfoList.entrySet())
         {
             String key = entry.getKey();
             String value = entry.getValue();
-            Connection instance;
-            instance = Connection.getInstance();
-            try{
-                HttpResponse httpResponse = instance.get(value, true);
-                writer.CreateFileObject(key,"",httpResponse.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            writer.CreateFileObject(key,"",httpResponse.getContent());
         }
     }
 }
