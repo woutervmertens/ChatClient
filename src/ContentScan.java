@@ -71,7 +71,7 @@ public class ContentScan {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            writer.CreateFileObject(key,"",httpResponse.getContent());
+            writer.CreateObjectFile(key,"",httpResponse.getContent());
         }
     }
 }

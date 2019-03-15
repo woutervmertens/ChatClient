@@ -9,7 +9,7 @@ public class HtmlWriter {
         return CreateFile(folderName, title,".html",content);
     }
 
-    public boolean CreateFileObject(String title, String extention, byte[] content)
+    public boolean CreateObjectFile(String title, String extention, byte[] content)
     {
         return CreateFile(lastFolderName,title,extention,content);
     }
@@ -34,10 +34,5 @@ public class HtmlWriter {
     public boolean CreateFolder(String name){
         lastFolderName = name;
         return new File(name).mkdir();
-    }
-
-    public boolean CreateFolderAndFile(String folderName, String fileName, byte[] content){
-        if(!CreateFolder(folderName)) return false;
-        return CreateFile(folderName,fileName,".html",content);
     }
 }

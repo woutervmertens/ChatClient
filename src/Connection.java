@@ -46,6 +46,18 @@ public class Connection {
         return send("GET "+resource);
     }
 
+    HttpResponse head(String resource){
+        return null;
+    }
+
+    HttpResponse put(String resource, String toPut){
+        return null;
+    }
+
+    HttpResponse post(String resource, String toPost){
+        return null;
+    }
+
     HttpResponse send(String cmd) throws IOException {
         String total = cmd+" HTTP/1.1";
         System.out.println("Fire to ");
@@ -109,6 +121,19 @@ public class Connection {
     void close() throws IOException {
         socket.close();
         instance = null;
+    }
+
+    public String GetDomain()
+    {
+        return domain;
+    }
+    public int GetPort()
+    {
+        return port;
+    }
+    public Socket GetSocket()
+    {
+        return socket;
     }
 
 }
