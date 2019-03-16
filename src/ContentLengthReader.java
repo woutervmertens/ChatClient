@@ -14,7 +14,6 @@ public class ContentLengthReader implements ContentReader {
     public byte[] readBody(BufferedReader reader) throws IOException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ContentScan contentScanner = new ContentScan();
         ArrayList<String> strList = new ArrayList<>();
         String s = reader.readLine();
 
@@ -27,7 +26,7 @@ public class ContentLengthReader implements ContentReader {
         //Scan all the strings and convert to bytes
         for(String str : strList)
         {
-            str = contentScanner.Scan(str) + '\n';
+            str += '\n';
             byte[] b = str.getBytes();
             baos.writeBytes(b);
         }

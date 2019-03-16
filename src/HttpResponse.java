@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class HttpResponse {
@@ -5,7 +6,7 @@ public class HttpResponse {
     private int statusCode;
     private String statusMessage;
     private Map<String,String> headers;
-    private Boolean hasHeader;
+    private Map<String, String> objectInfos;
 
     private byte[] content;
 
@@ -44,16 +45,33 @@ public class HttpResponse {
         this.headers = headers;
     }
 
+    public Map<String, String> getObjectInfos() {
+        return objectInfos;
+    }
+
+    public void setObjectInfos(Map<String, String> objectInfos) {
+        this.objectInfos = objectInfos;
+    }
+
+    public boolean hasObjects() {return this.objectInfos != null && !this.objectInfos.isEmpty();}
+
     public byte[] getContent() {
         return content;
+    }
+
+    public void addToContent(byte[] toAdd)
+    {
+        int contentLength = this.content.length;
+        int addLength = toAdd.length;
+        byte[] dest = new byte[contentLength + addLength];
+        System.arraycopy(this.content,0,dest,0,contentLength);
+        System.arraycopy(toAdd,0,dest,contentLength,addLength);
+        this.content = dest;
     }
 
     public void setContent(byte[] content) {
         this.content = content;
     }
 
-    public void setHasHeader(boolean b){
-        this.hasHeader = b;
-    }
-    public boolean HasHeader() {return this.hasHeader; }
+    public boolean HasHeader() {return this.headers != null && !this.headers.isEmpty(); }
 }

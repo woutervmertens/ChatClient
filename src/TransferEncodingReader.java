@@ -14,7 +14,6 @@ public class TransferEncodingReader implements ContentReader {
     public byte[] readBody(BufferedReader reader) throws IOException {
         ArrayList<byte[]> byteList = new ArrayList<>();
         ArrayList<String> strList = new ArrayList<>();
-        ContentScan contentScanner = new ContentScan();
 
         int size=0;
         do {
@@ -31,7 +30,7 @@ public class TransferEncodingReader implements ContentReader {
             }
             for(String str : strList)
             {
-                str = contentScanner.Scan(str) + '\n';
+                str += '\n';
                 byte[] b = str.getBytes();
                 byteArray.writeBytes(b);
             }

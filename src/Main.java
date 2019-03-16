@@ -11,10 +11,10 @@ public class Main {
         String domain = "tcpipguide.com";
 
         Connection con = new Connection(domain);
-        HtmlWriter htmlWriter = new HtmlWriter();
-        htmlWriter.CreateFolder(domain);
-        HttpResponse httpResponse = con.get("/");
-        htmlWriter.CreateFileBase(domain,domain,httpResponse.getContent());
+        //HtmlWriter htmlWriter = new HtmlWriter();
+        //htmlWriter.CreateFolder(domain);
+        con.get("/");
+        //htmlWriter.CreateFileBase(domain,domain,httpResponse.getContent());
         //HttpResponse httpResponse = con.get("/");
         //HttpResponse httpResponse = con.get("/Jvh1OQm.jpg");
         //HttpResponse httpResponse = con.get("/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png");

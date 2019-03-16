@@ -8,7 +8,7 @@ public class Request {
     protected Socket socket;
     protected Response response;
     protected PrintWriter writer;
-    private OutputStream output;
+    protected OutputStream output;
     public Request(Connection con)
     {
         this.domain = con.GetDomain();

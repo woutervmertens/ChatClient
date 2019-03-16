@@ -2,12 +2,17 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class ContentScan {
-    String imageStart = "<img";
-    String sourceStart = "src=\"";
-    String imageNameBase = "img";
-    HashMap<String, String> imageInfoList = new HashMap<>();
-    int imageCount = 0;
-    HtmlWriter writer = new HtmlWriter();
+    private String imageStart = "<img";
+    private String sourceStart = "src=\"";
+    private String imageNameBase = "img";
+    public HashMap<String, String> imageInfoList = new HashMap<>();
+    public int imageCount = 0;
+    //HtmlWriter writer = new HtmlWriter();
+
+    public void ClearList()
+    {
+        imageInfoList.clear();
+    }
 
     //Scans string for imageStart
     //  if found: loops scan for sourceStart, next loop starts at last sourceStart position
@@ -18,7 +23,6 @@ public class ContentScan {
     {
         if(in.contains(imageStart))
         {
-            imageInfoList.clear();
             int lastIndex = 0;
             while(lastIndex != -1){
 
@@ -34,7 +38,6 @@ public class ContentScan {
                     lastIndex += sourceStart.length();
                 }
             }
-            GetAllImages();
         }
         return in;
     }
@@ -50,28 +53,13 @@ public class ContentScan {
             int extPos = source.lastIndexOf('.');
             ext = source.substring(extPos);
         }
-        String local = imageNameBase + imageCount++ + ext;
+        String local = getLocal(imageCount++,ext);
         imageInfoList.put(local,source);
         return str.replace(origSource,local);
     }
 
-    //GET request all the images and save them locally
-    private void GetAllImages()
+    public String getLocal(int i, String ext)
     {
-        Connection instance;
-        instance = Connection.getInstance();
-        HttpResponse httpResponse = null;
-        try {
-            httpResponse = instance.get(imageInfoList.values());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (HashMap.Entry<String,String> entry : imageInfoList.entrySet())
-        {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            writer.CreateObjectFile(key,"",httpResponse.getContent());
-        }
+        return imageNameBase + i + ext;
     }
 }
