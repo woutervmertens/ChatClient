@@ -33,21 +33,4 @@ public class ContentLengthReader implements ContentReader {
         }
         return baos.toByteArray();
     }
-
-    @Override
-    public byte[] readImage(BufferedInputStream input, String ext) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            try {
-                byte[] buffer = new byte[2048];
-                for (int n; (n = input.read(buffer)) != -1; )
-                    out.write(buffer, 0, n);
-            } finally {
-                input.close();
-            }
-        } finally {
-            out.close();
-        }
-        return out.toByteArray();
-    }
 }

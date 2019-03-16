@@ -49,11 +49,6 @@ public class TransferEncodingReader implements ContentReader {
         return returnArray.toByteArray();
     }
 
-    @Override
-    public byte[] readImage(BufferedInputStream input, String ext) throws IOException {
-        return new byte[0];
-    }
-
     private int readHexString(String hex){
         return Integer.parseInt(hex,16);
     }

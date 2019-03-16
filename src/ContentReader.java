@@ -7,5 +7,4 @@ import java.io.InputStream;
 
 public interface ContentReader {
     byte[] readBody(BufferedReader reader) throws IOException;
-    byte[] readImage(BufferedInputStream input, String ext) throws IOException;
 }

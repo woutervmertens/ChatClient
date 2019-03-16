@@ -5,6 +5,7 @@ public class HttpResponse {
     private int statusCode;
     private String statusMessage;
     private Map<String,String> headers;
+    private Boolean hasHeader;
 
     private byte[] content;
 
@@ -50,4 +51,9 @@ public class HttpResponse {
     public void setContent(byte[] content) {
         this.content = content;
     }
+
+    public void setHasHeader(boolean b){
+        this.hasHeader = b;
+    }
+    public boolean HasHeader() {return this.hasHeader; }
 }
