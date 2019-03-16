@@ -8,12 +8,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String domain = "tcpipguide.com";
+        //String domain = "tcpipguide.com";
+        String domain = "i.imgur.com";
 
         Connection con = new Connection(domain);
         //HtmlWriter htmlWriter = new HtmlWriter();
         //htmlWriter.CreateFolder(domain);
-        con.get("/");
+        con.get("/4AiXzf8.jpg");
         //htmlWriter.CreateFileBase(domain,domain,httpResponse.getContent());
         //HttpResponse httpResponse = con.get("/");
         //HttpResponse httpResponse = con.get("/Jvh1OQm.jpg");

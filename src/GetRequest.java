@@ -27,9 +27,17 @@ public class GetRequest extends Request {
     }
     void AnalyseInitialRequest(HttpResponse res)
     {
+        scanner = new ContentScan();
+        String ext = res.getHeaders().get("Content-Type");
+        if(ext != null && ext.contains("image"))
+        {
+            ext = "." + ext.substring(ext.indexOf('/') + 1);
+            htmlWriter.CreateObjectFile(scanner.getLocal(0,ext),"",res.getContent());
+            return;
+        }
+
         String content = new String(res.getContent());
         String[] contentLines = content.split("\\r?\\n");
-        scanner = new ContentScan();
 
         int nLines = contentLines.length;
         scanner.ClearList();

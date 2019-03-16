@@ -22,6 +22,7 @@ public class ResponseParser {
     public HttpResponse parseAndClose() throws IOException {
         //Duplicate InputStream
         InputStream is = new ByteArrayInputStream(input.toByteArray());
+        InputStream is2 = new ByteArrayInputStream(input.toByteArray());
 
         //Create Response
         response = new HttpResponse();
@@ -32,8 +33,9 @@ public class ResponseParser {
             String tempType = response.getHeaders().get("Content-Type");
             switch (tempType) {
                 case "image/jpg":
+                case "image/jpeg":
                 case "image/png":
-                    ReadObject(is);
+                    ReadObject(is2);
                     break;
                 default:
                     ReadBody();
@@ -43,6 +45,7 @@ public class ResponseParser {
 
         reader.close();
         is.close();
+        is2.close();
         return response;
     }
 
@@ -107,6 +110,67 @@ public class ResponseParser {
             sis.close();
             out.close();
         }catch (IOException e) {e.printStackTrace();}
+
+        byte[] object = out.toByteArray();
+        response = ConvertToResponse(object);
+
+    }
+
+    //Splits up header and content, reads header as strings, keeps content as byte[], fills them into HttpResponse
+    private HttpResponse ConvertToResponse(byte[] input)
+    {
+        InputStream headerStream = new ByteArrayInputStream(input);
+        InputStream contentStream = new ByteArrayInputStream(input);
+
+        int contentStart = 0;
+        int totalLength = input.length;
+        HttpResponse res = new HttpResponse();
+
+        //Header
+        BufferedReader hedRed = new BufferedReader(new InputStreamReader(headerStream));
+        String line;
+        try {
+            line = hedRed.readLine();
+            if(line.contains("HTTP")) {
+                contentStart += line.getBytes().length;
+                String[] splitFirstLine = line.split(" ", 3);
+                res.setHttpVersion(splitFirstLine[0]);
+                res.setStatusCode(Integer.parseInt(splitFirstLine[1]));
+                res.setStatusMessage(splitFirstLine[2]);
+                //Set response Headers
+                HashMap<String, String> headers = new HashMap<>();
+                boolean loop = true;
+                //readBody headers
+                while (loop) {
+                    line = hedRed.readLine();
+                    contentStart += line.getBytes().length + 2;
+                    if (line == null || line.equals("")) {
+                        loop = false;
+                        contentStart += 2;
+                    }
+                    else {
+                        String[] parts = line.split(": ", 2);
+                        if (parts.length == 2) headers.put(parts[0], parts[1]);
+                    }
+                }
+                res.setHeaders(headers);
+            }
+            hedRed.close();
+        }catch(IOException e) {e.printStackTrace();}
+
+        //Content
+        int contentLength = totalLength - contentStart;
+        byte[] result = new byte[contentLength];
+        try {
+            contentStream.skip(contentStart);
+            contentStream.readNBytes(result,0,contentLength);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        res.setContent(result);
+
+        return res;
     }
 
     public ArrayList<HttpResponse> ReadObjects(InputStream input)

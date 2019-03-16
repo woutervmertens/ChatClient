@@ -1,3 +1,4 @@
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,13 +10,13 @@ public class Response {
     {
         HttpResponse response = null;
         try{
-            InputStream input = socket.getInputStream();
+            BufferedInputStream input = new BufferedInputStream(socket.getInputStream());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try
             {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[2048];
                 int len;
-                while ((len = input.read(buffer)) > -1 ) {
+                while ((len = input.read(buffer)) > 1 && socket.getInputStream().available() > 0) {
                     baos.write(buffer, 0, len);
                 }
                 baos.flush();
