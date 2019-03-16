@@ -72,11 +72,11 @@ public class GetRequest extends Request {
         for(String res : resources)
         {
             PipelineSend("GET " + res);
-            try {
+            /*try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 
         ArrayList<HttpResponse> response = super.response.MultipleResponses(super.socket);

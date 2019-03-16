@@ -88,6 +88,7 @@ public class ResponseParser {
         }catch(IOException e) {e.printStackTrace();}
     }
 
+    //HTML
     private void ReadBody()
     {
         Map<String, String> headers = response.getHeaders();
@@ -98,6 +99,7 @@ public class ResponseParser {
         }catch (IOException e) {e.printStackTrace();}
     }
 
+    //Single object
     private void ReadObject(InputStream is)
     {
         BufferedInputStream sis = new BufferedInputStream(is);
@@ -131,7 +133,7 @@ public class ResponseParser {
         String line;
         try {
             line = hedRed.readLine();
-            if(line.contains("HTTP")) {
+            if(line != null && line.contains("HTTP")) {
                 contentStart += line.getBytes().length;
                 String[] splitFirstLine = line.split(" ", 3);
                 res.setHttpVersion(splitFirstLine[0]);
@@ -173,6 +175,7 @@ public class ResponseParser {
         return res;
     }
 
+    //Multiple objects
     public ArrayList<HttpResponse> ReadObjects(InputStream input)
     {
         BufferedInputStream sis = new BufferedInputStream(input);
@@ -186,50 +189,66 @@ public class ResponseParser {
             out.close();
         }catch (IOException e) {e.printStackTrace();}
 
-        String output = new String(out.toByteArray());
+        /*String output = new String(out.toByteArray());
         output = output.replaceAll("HTTP","\nHTTP");
-        return ConvertToResponses(output.split("\\r?\\n"));
+        return ConvertToResponses(output.split("\\r?\\n"));*/
+
+        return ConvertToResponses(SplitByteArrays(out.toByteArray()));
     }
 
-    private ArrayList<HttpResponse> ConvertToResponses(String[] in)
+    private ArrayList<byte[]> SplitByteArrays(byte[] input)
+    {
+        InputStream countStream = new ByteArrayInputStream(input);
+        InputStream divideStream = new ByteArrayInputStream(input);
+        ArrayList<byte[]> result = new ArrayList<>();
+        String count = "";
+        try {
+            count = new String(countStream.readAllBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] counts = count.split("(?=HTTP)");
+
+        int start = 0;
+        int len;
+        byte[] check = "HTTP".getBytes();
+        int inputLen = input.length;
+        for (String str : counts)
+        {
+            if(str.length() == 0) continue;
+            len = 0;
+            int i = start + 1;
+            while (input[i] != check[0]
+                    || input[i+1] != check[1]
+                    || input[i+2] != check[2]
+                    || input[i+3] != check[3]){
+                len++;
+                i++;
+                if(i + 3 >= inputLen) {
+                    len = inputLen - start - 1;
+                    break;
+                }
+            }
+            len++;
+            try {
+                byte[] b = divideStream.readNBytes(len);
+                result.add(b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            start += len;
+        }
+
+        return result;
+    }
+
+    private ArrayList<HttpResponse> ConvertToResponses(ArrayList<byte[]> in)
     {
         ArrayList<HttpResponse> result = new ArrayList<>();
-        int inLength = in.length;
-        int next = 1;
-        HttpResponse res = new HttpResponse();
-        for (int i = 1; i < inLength; i += next)
-        {
-            next = 1;
-            if(in[i].contains("HTTP"))
-            {
-                if(i != 1){
-                    result.add(res);
-                    res = new HttpResponse();
-                }
-                String[] splitFirstLine = in[i].split(" ", 3);
-                res.setHttpVersion(splitFirstLine[0]);
-                res.setStatusCode(Integer.parseInt(splitFirstLine[1]));
-                res.setStatusMessage(splitFirstLine[2]);
-                //Set response Headers
-                HashMap<String, String> headers = new HashMap<>();
 
-                boolean loop = true;
-                //readBody headers
-                while (loop) {
-                    String line = in[i + next++];
-                    if (line == null || line.equals("")) loop = false;
-                    else {
-                        String[] parts = line.split(": ", 2);
-                        if (parts.length == 2) headers.put(parts[0], parts[1]);
-                    }
-                }
-                res.setHeaders(headers);
-                res.setContent(new byte[0]);
-                continue;
-            }
-            else{
-                res.addToContent(in[i].getBytes());
-            }
+        for(byte[] ar : in)
+        {
+            result.add(ConvertToResponse(ar));
         }
 
         return result;
