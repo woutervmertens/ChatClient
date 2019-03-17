@@ -1,12 +1,11 @@
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ContentScan {
     private String imageStart = "<img";
     private String sourceStart = "src=\"";
     private String imageNameBase = "img";
     private String blocked = "ads";
-    public HashMap<String, String> imageInfoList = new HashMap<>();
+    public LinkedHashMap<String, String> imageInfoList = new LinkedHashMap<>();
     public int imageCount = 0;
     public int adCount = 0;
     //HtmlWriter writer = new HtmlWriter();

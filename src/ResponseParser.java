@@ -223,7 +223,7 @@ public class ResponseParser {
                 len++;
                 i++;
                 if(i + 3 >= inputLen) {
-                    len = inputLen - start - 1;
+                    len = inputLen - start;
                     break;
                 }
             }
