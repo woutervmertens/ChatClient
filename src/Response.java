@@ -16,7 +16,7 @@ public class Response {
             {
                 byte[] buffer = new byte[2048];
                 int len;
-                while ((len = input.read(buffer)) > 1 && socket.getInputStream().available() > 0) {
+                while ((len = input.read(buffer)) > 1 || socket.getInputStream().available() > 0) {
                     baos.write(buffer, 0, len);
                 }
                 baos.flush();

@@ -69,17 +69,14 @@ public class GetRequest extends Request {
             catch(IOException e){e.printStackTrace();}
         writer = new PrintWriter(output);
         Collection<String> resources = scanner.imageInfoList.values();
+        ArrayList<HttpResponse> response = new ArrayList<>();
         for(String res : resources)
         {
+
             PipelineSend("GET " + res);
-            /*try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
         }
 
-        ArrayList<HttpResponse> response = super.response.MultipleResponses(super.socket);
+        response = super.response.MultipleResponses(super.socket);
 
         //Possible problem here, responses out of order -> wrong image wrong name
         int i = 0;

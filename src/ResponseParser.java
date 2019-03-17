@@ -35,6 +35,7 @@ public class ResponseParser {
                 case "image/jpg":
                 case "image/jpeg":
                 case "image/png":
+                case "image/gif":
                     ReadObject(is2);
                     break;
                 default:
