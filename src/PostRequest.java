@@ -9,9 +9,9 @@ public class PostRequest extends Request {
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Post message: ");
-        String toPost = sc.nextLine();
+        String message = sc.nextLine();
         sc.close();
-        HttpResponse res = super.send("POST " + resource + " " + toPost);
+        HttpResponse res = super.sendMessage("POST " + resource, message);
         System.out.println();
         System.out.println("POST Response: " + res.getStatusCode() + " " + res.getStatusMessage());
         System.out.println();

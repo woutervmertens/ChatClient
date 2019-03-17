@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class Request {
 
@@ -35,6 +36,28 @@ public class Request {
 
         writer.println(total);
         writer.println("Host: "+domain+":"+port);
+        writer.println();
+        writer.flush();
+
+        return read();
+    }
+
+    public HttpResponse sendMessage(String cmd, String message)
+    {
+        String total = cmd + " HTTP/1.1";
+        System.out.println("Fire to ");
+        System.out.println(total);
+        System.out.println("Host: "+domain+":"+port);
+        System.out.println("Content-Length: " + message.getBytes(StandardCharsets.UTF_8).length);
+        System.out.println();
+        System.out.println(message);
+        System.out.println();
+
+        writer.println(total);
+        writer.println("Host: "+domain+":"+port);
+        writer.println("Content-Length: " + message.getBytes(StandardCharsets.UTF_8).length);
+        writer.println();
+        writer.println(message);
         writer.println();
         writer.flush();
 
