@@ -31,3 +31,4 @@ ChatClient.iml
 *.html
 *.png
 *.gif
+!ad.jpg
