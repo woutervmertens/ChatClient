@@ -35,12 +35,14 @@ public class Connection {
         getRequest.InitialRequest(resource);
     }
 
-    HttpResponse head(String resource){
-        return null;
+    void head(String resource){
+        HeadRequest headRequest = new HeadRequest(this);
+        headRequest.Request(resource);
     }
 
-    HttpResponse put(String resource, String toPut){
-        return null;
+    void put(String resource){
+        PutRequest putRequest = new PutRequest(this);
+        putRequest.Request(resource);
     }
 
     void post(String resource){
