@@ -189,13 +189,10 @@ public class ResponseParser {
             out.close();
         }catch (IOException e) {e.printStackTrace();}
 
-        /*String output = new String(out.toByteArray());
-        output = output.replaceAll("HTTP","\nHTTP");
-        return ConvertToResponses(output.split("\\r?\\n"));*/
-
         return ConvertToResponses(SplitByteArrays(out.toByteArray()));
     }
 
+    //Splits all the input byte array into multiple starting with "HTTP"
     private ArrayList<byte[]> SplitByteArrays(byte[] input)
     {
         InputStream countStream = new ByteArrayInputStream(input);
@@ -242,6 +239,7 @@ public class ResponseParser {
         return result;
     }
 
+    //Converts multiple byte arrays into multiple HttpResponses
     private ArrayList<HttpResponse> ConvertToResponses(ArrayList<byte[]> in)
     {
         ArrayList<HttpResponse> result = new ArrayList<>();
