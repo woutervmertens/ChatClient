@@ -69,10 +69,9 @@ public class GetRequest extends Request {
             catch(IOException e){e.printStackTrace();}
         writer = new PrintWriter(output);
         Collection<String> resources = scanner.imageInfoList.values();
-        ArrayList<HttpResponse> response = new ArrayList<>();
+        ArrayList<HttpResponse> response;
         for(String res : resources)
         {
-
             PipelineSend("GET " + res);
         }
 

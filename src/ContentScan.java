@@ -5,8 +5,10 @@ public class ContentScan {
     private String imageStart = "<img";
     private String sourceStart = "src=\"";
     private String imageNameBase = "img";
+    private String blocked = "ads";
     public HashMap<String, String> imageInfoList = new HashMap<>();
     public int imageCount = 0;
+    public int adCount = 0;
     //HtmlWriter writer = new HtmlWriter();
 
     public void ClearList()
@@ -53,8 +55,16 @@ public class ContentScan {
             int extPos = source.lastIndexOf('.');
             ext = source.substring(extPos);
         }
-        String local = getLocal(imageCount++,ext);
-        imageInfoList.put(local,source);
+        String local;
+        if(source.contains(blocked))
+        {
+            local = "../ad.jpg";
+        }
+        else
+        {
+            local = getLocal(imageCount++,ext);
+            imageInfoList.put(local,source);
+        }
         return str.replace(origSource,local);
     }
 
