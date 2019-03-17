@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Map;
 
 public class HeadRequest extends Request{
     public HeadRequest(Connection con){
@@ -6,6 +7,20 @@ public class HeadRequest extends Request{
     }
     public HttpResponse Request(String resource)
     {
-        return super.send("HEAD " + resource);
+        HttpResponse res = super.send("HEAD " + resource);
+
+        System.out.println("HEAD response: ");
+        System.out.println(res.getHttpVersion() + " " + res.getStatusMessage() + " " + res.getStatusMessage());
+        if(res.HasHeader())
+        {
+            for (Map.Entry<String,String> entry : res.getHeaders().entrySet())
+            {
+                System.out.println(entry.getKey() + " " + entry.getValue());
+            }
+        }
+        System.out.println(new String(res.getContent()));
+        System.out.println();
+
+        return res;
     }
 }
