@@ -8,29 +8,29 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String domain = "tcpipguide.com";
-        //String domain = "i.imgur.com";
+        //String domain = "tcpipguide.com";
+        String command = args[0];
+        String domain = args[1];
+        int port = 80;
+        port = Integer.parseInt(args[2]);
 
-        Connection con = new Connection(domain);
-        //HtmlWriter htmlWriter = new HtmlWriter();
-        //htmlWriter.CreateFolder(domain);
-        con.get("/");
-        //htmlWriter.CreateFileBase(domain,domain,httpResponse.getContent());
-        //HttpResponse httpResponse = con.get("/");
-        //HttpResponse httpResponse = con.get("/Jvh1OQm.jpg");
-        //HttpResponse httpResponse = con.get("/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png");
-
-
-
-        //System.out.println(new String(httpResponse2.getContent()));
-
-        //Path file = Paths.get("name.png");
-        //Path file = Paths.get("img.png");
-        //Files.write(file, httpResponse.getContent());
-
-
-//        htmlWriter.CreateFolderAndFile("img","imgs",httpResponse2.getContent());
-
+        Connection con = new Connection(domain,port);
+        String resource = con.GetResource();
+        switch (command)
+        {
+            case "GET":
+                con.get(resource);
+                break;
+            case "POST":
+                con.post(resource);
+                break;
+            case "PUT":
+                con.put(resource);
+                break;
+            case "HEAD":
+                con.put(resource);
+                break;
+        }
 
         con.close();
     }

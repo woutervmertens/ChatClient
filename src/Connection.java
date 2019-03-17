@@ -4,6 +4,7 @@ import java.net.Socket;
 
 public class Connection {
     private String domain;
+    private String res = "";
     private int port;
     private Socket socket;
     private OutputStream output;
@@ -18,7 +19,9 @@ public class Connection {
         if(domain.startsWith("https://"))domain = domain.replaceFirst("https://","");
         if(domain.startsWith("http://"))domain = domain.replaceFirst("http://","");
         if(domain.startsWith("www."))domain = domain.replaceFirst("www.","");
-        if(domain.endsWith("/"))domain = domain.substring(0, domain.length() - 1);
+        if(domain.contains("/"))res = domain.substring(domain.indexOf("/"));
+        if(res.length() != 0) domain = domain.substring(0, domain.indexOf("/"));
+        else res = "/";
 
         this.domain = domain;
 
@@ -76,5 +79,6 @@ public class Connection {
     {
         return socket;
     }
+    public String GetResource() {return res;}
 
 }
