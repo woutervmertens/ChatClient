@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Response {
+    //Reads incoming data and gets it converted into a HttpResponse, then returns it
     public HttpResponse SingleResponse(Socket socket)
     {
         HttpResponse response = null;
@@ -36,6 +37,8 @@ public class Response {
 
         return response;
     }
+
+    //Gets all the data read and sends back the returned HttpResponse list
     public ArrayList<HttpResponse> MultipleResponses(Socket socket)
     {
         ArrayList<HttpResponse> response = new ArrayList<>();

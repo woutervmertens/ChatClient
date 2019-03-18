@@ -23,7 +23,7 @@ public class TransferEncodingReader implements ContentReader {
             size = readHexString(hexSize);
 
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-            //Seperate reading and scanning to avoid not reading whole line
+            //Separate reading and scanning to avoid not reading whole line
             String s = "";
             while(!(s = reader.readLine()).equals("0")){
                 strList.add(s);
@@ -40,7 +40,6 @@ public class TransferEncodingReader implements ContentReader {
 
 
         //Convert the byteList from List of byteArrays to 1 byteArray
-        //reuse size:0
         ByteArrayOutputStream returnArray = new ByteArrayOutputStream();
         for (byte[] byteArray : byteList) {
             returnArray.writeBytes(byteArray);

@@ -7,8 +7,10 @@ public class HeadRequest extends Request{
     }
     public HttpResponse Request(String resource)
     {
+        //Send HEAD request
         HttpResponse res = super.send("HEAD " + resource);
 
+        //Print response
         System.out.println("HEAD response: ");
         System.out.println(res.getHttpVersion() + " " + res.getStatusMessage() + " " + res.getStatusMessage());
         if(res.HasHeader())

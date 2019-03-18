@@ -23,6 +23,7 @@ public class Connection {
         if(res.length() != 0) domain = domain.substring(0, domain.indexOf("/"));
         else res = "/";
 
+        //Set up local variables
         this.domain = domain;
 
         this.port = port;
@@ -55,6 +56,7 @@ public class Connection {
 
     public Socket ResetSocket()
     {
+        //Close socket and set up a new one
         try{
             socket.close();
             socket = new Socket(domain, port);

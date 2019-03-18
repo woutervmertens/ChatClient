@@ -20,22 +20,29 @@ public class GetRequest extends Request {
 
     public void InitialRequest(String resource)
     {
+        //Send a Get request
         HttpResponse res = super.send("GET " + resource);
+        //Check if response status is OK
         if(res.getStatusCode() != 200) return;
+        //Create a folder
         htmlWriter.CreateFolder(domain);
+        //Analyse response if additional requests are needed
         AnalyseInitialRequest(res);
     }
     void AnalyseInitialRequest(HttpResponse res)
     {
+        //Scan if the data is an image
         scanner = new ContentScan();
         String ext = res.getHeaders().get("Content-Type");
         if(ext != null && ext.contains("image"))
         {
+            //Save as image
             ext = "." + ext.substring(ext.indexOf('/') + 1);
             htmlWriter.CreateObjectFile(scanner.getLocal(0,ext),"",res.getContent());
             return;
         }
 
+        //data is HTML, check if it has "<img>" tags
         String content = new String(res.getContent());
         String[] contentLines = content.split("\\r?\\n");
 
@@ -45,6 +52,7 @@ public class GetRequest extends Request {
             contentLines[i] = scanner.Scan(contentLines[i]);
         }
 
+        //Save data to html document
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
         for(String str : contentLines)
         {
@@ -53,6 +61,7 @@ public class GetRequest extends Request {
         }
         htmlWriter.CreateFileBase(domain,domain,byteArray.toByteArray());
 
+        //if there are "<img>" tags, download the images
         if(scanner.imageCount > 0)
         {
             AdditionalRequests();
@@ -68,6 +77,7 @@ public class GetRequest extends Request {
         try {output = socket.getOutputStream();}
             catch(IOException e){e.printStackTrace();}
         writer = new PrintWriter(output);
+        //For every detected image: send a get request
         Collection<String> resources = scanner.imageInfoList.values();
         ArrayList<HttpResponse> response;
         for(String res : resources)
@@ -75,9 +85,11 @@ public class GetRequest extends Request {
             PipelineSend("GET " + res);
         }
 
+        //Get all the response data and convert it to multiple responses
         response = super.response.MultipleResponses(super.socket);
 
         //Possible problem here, responses out of order -> wrong image wrong name
+        //imageInfoList works with LinkedHashMap to keep it in order as long as connection is ok
         int i = 0;
         for (HttpResponse res : response)
         {
@@ -104,6 +116,7 @@ public class GetRequest extends Request {
         }
     }
 
+    //Send with keep-alive
     public void PipelineSend(String cmd)
     {
         String total = cmd + " HTTP/1.1";
